@@ -47,10 +47,10 @@ const registerUser = async (req, res) => {
         }
 
         const newUser = new userModel(userData)
-        const user = await newUser.save()
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+        const user = await newUser.save()  //databse mai store krne k  liye
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)  //server  string browser ko bhejta hai esetom id ko jwtsecret k sath encrypt krkr
 
-        res.json({ success: true, token })
+        res.json({ success: true, token })//aur fronetnd ko token send krta hai
 
     } catch (error) {
         console.log(error)
@@ -111,7 +111,7 @@ const updateProfile = async (req, res) => {
             return res.json({ success: false, message: "Data Missing" })
         }
 
-        await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender })
+        await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender })//doubt1
 
         if (imageFile) {
 
@@ -137,7 +137,6 @@ const bookAppointment = async (req, res) => {
 
         const { userId, docId, slotDate, slotTime } = req.body
         const docData = await doctorModel.findById(docId).select("-password")
-
         if (!docData.available) {
             return res.json({ success: false, message: 'Doctor Not Available' })
         }
@@ -159,7 +158,8 @@ const bookAppointment = async (req, res) => {
 
         const userData = await userModel.findById(userId).select("-password")
 
-        delete docData.slots_booked
+        delete docData.slots_booked  //doubt1- bcoz docdata  appointmentData model b de rhe ho jisse sloot booked us doctor ka pura jaayega
+                                        //faaaltu ka unnecessary space gherega isliye phle hi kewal doctorMOdel mai book slot ki entry daal denge
 
         const appointmentData = {
             userId,
@@ -169,14 +169,14 @@ const bookAppointment = async (req, res) => {
             amount: docData.fees,
             slotTime,
             slotDate,
-            date: Date.now()
+            date: Date.now()//imp
         }
 
         const newAppointment = new appointmentModel(appointmentData)
         await newAppointment.save()
 
         // save new slots data in docData
-        await doctorModel.findByIdAndUpdate(docId, { slots_booked })
+        await doctorModel.findByIdAndUpdate(docId, { slots_booked }) //permanently book krne k liye taaki koi aur book na kar sakey
 
         res.json({ success: true, message: 'Appointment Booked' })
 
@@ -199,7 +199,7 @@ const cancelAppointment = async (req, res) => {
             return res.json({ success: false, message: 'Unauthorized action' })
         }
 
-        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })
+        await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })  
 
         // releasing doctor slot 
         const { docId, slotDate, slotTime } = appointmentData
@@ -208,7 +208,7 @@ const cancelAppointment = async (req, res) => {
 
         let slots_booked = doctorData.slots_booked
 
-        slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime)
+        slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime) // e yhaan array k element ko dikhaa rha hai
 
         await doctorModel.findByIdAndUpdate(docId, { slots_booked })
 
