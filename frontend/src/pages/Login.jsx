@@ -16,7 +16,7 @@ const Login = () => {
   const { backendUrl, token, setToken } = useContext(AppContext)
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault();
+    event.preventDefault();//jab form submit karoge tab page reload nhi hoga issey
 
     if (state === 'Sign Up') {
 

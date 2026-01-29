@@ -8,6 +8,7 @@ const AppContextProvider = (props) => {
 
     const currencySymbol = '₹'
     const backendUrl = import.meta.env.VITE_BACKEND_URL
+     const AdminUrl=import.meta.env.VITE_ADMIN_URL
 
     const [doctors, setDoctors] = useState([])
     const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : '')
@@ -34,7 +35,7 @@ const AppContextProvider = (props) => {
 
     }
 
-    // Getting User Profile using API
+ //getting user profile using Api
     const loadUserProfileData = async () => {
 
         try {
@@ -68,6 +69,8 @@ const AppContextProvider = (props) => {
         doctors, getDoctosData,
         currencySymbol,
         backendUrl,
+        //added adminurl
+        AdminUrl,
         token, setToken,
         userData, setUserData, loadUserProfileData
     }

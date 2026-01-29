@@ -8,7 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate()
 
   const [showMenu, setShowMenu] = useState(false)
-  const { token, setToken, userData } = useContext(AppContext)
+  const { token, setToken, userData,AdminUrl } = useContext(AppContext)
 
   const logout = () => {
     localStorage.removeItem('token')
@@ -39,6 +39,15 @@ const Navbar = () => {
       </ul>
 
       <div className='flex items-center gap-4 '>
+     
+     {/* --- Admin Panel Button --- */}
+<button 
+  onClick={() => window.open(`${AdminUrl}/admin-dashboard`, '_blank')}
+  className='border px-5 py-2 rounded-full text-gray-600 hidden md:block hover:bg-primary hover:text-white transition-all border-gray-300'
+>
+  Admin Panel
+</button>
+
         {
           token && userData
             ? <div className='flex items-center gap-2 cursor-pointer group relative'>
@@ -68,6 +77,7 @@ const Navbar = () => {
             <NavLink onClick={() => setShowMenu(false)} to='/about' ><p className='px-4 py-2 rounded full inline-block'>ABOUT</p></NavLink>
             <NavLink onClick={() => setShowMenu(false)} to='/contact' ><p className='px-4 py-2 rounded full inline-block'>CONTACT</p></NavLink>
           </ul>
+
         </div>
       </div>
     </div>
