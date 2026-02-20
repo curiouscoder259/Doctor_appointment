@@ -8,35 +8,35 @@ import { v2 as cloudinary } from 'cloudinary'
 import stripe from "stripe";
 import razorpay from 'razorpay';
 
-// Gateway Initialize
+
 const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
 const razorpayInstance = new razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 })
 
-// API to register user
+
 const registerUser = async (req, res) => {
 
     try {
         const { name, email, password } = req.body;
 
-        // checking for all data to register user
+       
         if (!name || !email || !password) {
             return res.json({ success: false, message: 'Missing Details' })
         }
 
-        // validating email format
+     
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Please enter a valid email" })
         }
 
-        // validating strong password
+       
         if (password.length < 8) {
             return res.json({ success: false, message: "Please enter a strong password" })
         }
 
-        // hashing user password
+    
         const salt = await bcrypt.genSalt(10); // the more no. round the more time it will take
         const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -47,8 +47,8 @@ const registerUser = async (req, res) => {
         }
 
         const newUser = new userModel(userData)
-        const user = await newUser.save()  //databse mai store krne k  liye
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)  //server  string browser ko bhejta hai esetom id ko jwtsecret k sath encrypt krkr
+        const user = await newUser.save() 
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET) 
 
         res.json({ success: true, token })//aur fronetnd ko token send krta hai
 
@@ -58,7 +58,7 @@ const registerUser = async (req, res) => {
     }
 }
 
-// API to login user
+
 const loginUser = async (req, res) => {
 
     try {
@@ -84,7 +84,7 @@ const loginUser = async (req, res) => {
     }
 }
 
-// API to get user profile data
+
 const getProfile = async (req, res) => {
 
     try {
@@ -99,7 +99,6 @@ const getProfile = async (req, res) => {
     }
 }
 
-// API to update user profile
 const updateProfile = async (req, res) => {
 
     try {
@@ -130,7 +129,7 @@ const updateProfile = async (req, res) => {
     }
 }
 
-// API to book appointment 
+
 const bookAppointment = async (req, res) => {
 
     try {
@@ -143,7 +142,7 @@ const bookAppointment = async (req, res) => {
 
         let slots_booked = docData.slots_booked
 
-        // checking for slot availablity 
+        // checking  slot availablity 
         if (slots_booked[slotDate]) {
             if (slots_booked[slotDate].includes(slotTime)) {
                 return res.json({ success: false, message: 'Slot Not Available' })
@@ -187,21 +186,21 @@ const bookAppointment = async (req, res) => {
 
 }
 
-// API to cancel appointment
+
 const cancelAppointment = async (req, res) => {
     try {
 
         const { userId, appointmentId } = req.body
         const appointmentData = await appointmentModel.findById(appointmentId)
 
-        // verify appointment user 
+        
         if (appointmentData.userId !== userId) {
             return res.json({ success: false, message: 'Unauthorized action' })
         }
 
         await appointmentModel.findByIdAndUpdate(appointmentId, { cancelled: true })  
 
-        // releasing doctor slot 
+       
         const { docId, slotDate, slotTime } = appointmentData
 
         const doctorData = await doctorModel.findById(docId)
@@ -220,7 +219,7 @@ const cancelAppointment = async (req, res) => {
     }
 }
 
-// API to get user appointments for frontend my-appointments page
+
 const listAppointment = async (req, res) => {
     try {
 
@@ -235,7 +234,7 @@ const listAppointment = async (req, res) => {
     }
 }
 
-// API to make payment of appointment using razorpay
+
 const paymentRazorpay = async (req, res) => {
     try {
 
@@ -246,14 +245,14 @@ const paymentRazorpay = async (req, res) => {
             return res.json({ success: false, message: 'Appointment Cancelled or not found' })
         }
 
-        // creating options for razorpay payment
+        // creating options 
         const options = {
             amount: appointmentData.amount * 100,
             currency: process.env.CURRENCY,
             receipt: appointmentId,
         }
 
-        // creation of an order
+        // creating order
         const order = await razorpayInstance.orders.create(options)
 
         res.json({ success: true, order })
@@ -264,7 +263,7 @@ const paymentRazorpay = async (req, res) => {
     }
 }
 
-// API to verify payment of razorpay
+
 const verifyRazorpay = async (req, res) => {
     try {
         const { razorpay_order_id } = req.body
@@ -283,7 +282,7 @@ const verifyRazorpay = async (req, res) => {
     }
 }
 
-// API to make payment of appointment using Stripe
+
 const paymentStripe = async (req, res) => {
     try {
 

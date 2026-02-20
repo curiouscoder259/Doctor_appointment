@@ -40,7 +40,7 @@ const Navbar = () => {
 
       <div className='flex items-center gap-4 '>
      
-     {/* --- Admin Panel Button --- */}
+     {/* Admin Panel Button */}
 <button 
   onClick={() => window.open(`${AdminUrl}/admin-dashboard`, '_blank')}
   className='border px-5 py-2 rounded-full text-gray-600 hidden md:block hover:bg-primary hover:text-white transition-all border-gray-300'

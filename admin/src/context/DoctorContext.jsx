@@ -46,6 +46,7 @@ const DoctorContextProvider = (props) => {
         }
     }
 
+    
     // Function to cancel doctor appointment using API
     const cancelAppointment = async (appointmentId) => {
 

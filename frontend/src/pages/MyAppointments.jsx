@@ -18,7 +18,7 @@ const MyAppointments = () => {
     // Function to format the date eg. ( 20_01_2000 => 20 Jan 2000 )
     const slotDateFormat = (slotDate) => {
         const dateArray = slotDate.split('_')
-        return dateArray[0] + " " + months[Number(dateArray[1])] + " " + dateArray[2]
+        return dateArray[0] + " " + months[Number(dateArray[0])] + " " + dateArray[2]
     }
 
     // Getting User Appointments Data Using API
@@ -34,7 +34,7 @@ const MyAppointments = () => {
         }
     }
 
-    // Function to cancel appointment Using API
+  
     const cancelAppointment = async (appointmentId) => {
 
         try {
@@ -84,7 +84,7 @@ const MyAppointments = () => {
         rzp.open();
     };
 
-    // Function to make payment using razorpay
+ 
     const appointmentRazorpay = async (appointmentId) => {
         try {
             const { data } = await axios.post(backendUrl + '/api/user/payment-razorpay', { appointmentId }, { headers: { token } })
@@ -99,7 +99,7 @@ const MyAppointments = () => {
         }
     }
 
-    // Function to make payment using stripe
+   
     const appointmentStripe = async (appointmentId) => {
         try {
             const { data } = await axios.post(backendUrl + '/api/user/payment-stripe', { appointmentId }, { headers: { token } })

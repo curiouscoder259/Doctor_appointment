@@ -6,7 +6,6 @@ import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
 import userModel from "../models/userModel.js";
 
-// API for admin login
 const loginAdmin = async (req, res) => {
     try {
 
@@ -27,7 +26,7 @@ const loginAdmin = async (req, res) => {
 }
 
 
-// API to get all appointments list
+
 const appointmentsAdmin = async (req, res) => {
     try {
 
@@ -41,7 +40,7 @@ const appointmentsAdmin = async (req, res) => {
 
 }
 
-// API for appointment cancellation
+
 const appointmentCancel = async (req, res) => {
     try {
 
@@ -57,7 +56,7 @@ const appointmentCancel = async (req, res) => {
 
 }
 
-// API for adding Doctor
+
 const addDoctor = async (req, res) => {
 
     try {
@@ -70,17 +69,17 @@ const addDoctor = async (req, res) => {
             return res.json({ success: false, message: "Missing Details" })
         }
 
-        // validating email format
+        
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Please enter a valid email" })
         }
 
-        // validating strong password
+     
         if (password.length < 8) {
             return res.json({ success: false, message: "Please enter a strong password" })
         }
 
-        // hashing user password
+        
         const salt = await bcrypt.genSalt(10); // the more no. round the more time it will take
         const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -112,7 +111,7 @@ const addDoctor = async (req, res) => {
     }
 }
 
-// API to get all doctors list for admin panel
+
 const allDoctors = async (req, res) => {
     try {
 
@@ -125,7 +124,7 @@ const allDoctors = async (req, res) => {
     }
 }
 
-// API to get dashboard data for admin panel
+
 const adminDashboard = async (req, res) => {
     try {
 

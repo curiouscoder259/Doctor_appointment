@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import doctorModel from "../models/doctorModel.js";
 import appointmentModel from "../models/appointmentModel.js";
 
-// API for doctor Login 
+
 const loginDoctor = async (req, res) => {
 
     try {
@@ -31,7 +31,7 @@ const loginDoctor = async (req, res) => {
     }
 }
 
-// API to get doctor appointments for doctor panel
+
 const appointmentsDoctor = async (req, res) => {
     try {
 
@@ -46,7 +46,7 @@ const appointmentsDoctor = async (req, res) => {
     }
 }
 
-// API to cancel appointment for doctor panel
+
 const appointmentCancel = async (req, res) => {
     try {
 
@@ -67,7 +67,7 @@ const appointmentCancel = async (req, res) => {
 
 }
 
-// API to mark appointment completed for doctor panel
+
 const appointmentComplete = async (req, res) => {
     try {
 
@@ -88,7 +88,7 @@ const appointmentComplete = async (req, res) => {
 
 }
 
-// API to get all doctors list for Frontend
+
 const doctorList = async (req, res) => {
      
     console.log("api hitted");
@@ -104,7 +104,7 @@ const doctorList = async (req, res) => {
 
 }
 
-// API to change doctor availablity for Admin and Doctor Panel
+
 const changeAvailablity = async (req, res) => {
     try {
 
@@ -120,7 +120,7 @@ const changeAvailablity = async (req, res) => {
     }
 }
 
-// API to get doctor profile for  Doctor Panel
+
 const doctorProfile = async (req, res) => {
     try {
 
@@ -135,7 +135,7 @@ const doctorProfile = async (req, res) => {
     }
 }
 
-// API to update doctor profile data from  Doctor Panel
+
 const updateDoctorProfile = async (req, res) => {
     try {
 
@@ -151,7 +151,7 @@ const updateDoctorProfile = async (req, res) => {
     }
 }
 
-// API to get dashboard data for doctor panel
+
 const doctorDashboard = async (req, res) => {
     try {
 
